@@ -33,3 +33,4 @@ This repo is a completely client-side application that allows users to manage pr
 
 # Technology
 
+* The entire project is located under ```./project```.
