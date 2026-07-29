@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BenderBuilders.App/BenderBuilders.App.csproj" />
+  </Folder>
+</Solution>
