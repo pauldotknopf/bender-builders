@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using ElectronNET.API;
+using ElectronNET.API.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add this line to enable Electron.NET:
+builder.UseElectron(args, ElectronAppReady);
 
 var app = builder.Build();
 
@@ -31,3 +33,13 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+static async Task ElectronAppReady()
+{
+    var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions { Show = false });
+
+    browserWindow.OnReadyToShow += () =>
+    {
+        browserWindow.Show();
+    };
+}
