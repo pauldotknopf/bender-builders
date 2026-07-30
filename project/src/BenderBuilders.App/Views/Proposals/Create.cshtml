@@ -1,0 +1,12 @@
+@model BenderBuilders.Interfaces.Dtos.ProposalDto
+@{
+    ViewData["Title"] = "Create proposal";
+}
+
+<h1 class="h3 mb-3">Create proposal</h1>
+
+<partial name="_ProposalForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

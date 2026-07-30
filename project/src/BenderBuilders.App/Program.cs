@@ -44,7 +44,16 @@ static async Task ElectronAppReady()
     var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
     {
         Show = false,
-        Title = "Bender Builders"
+        Title = "Bender Builders",
+        // The renderer only hosts a plain web UI. Disable Node integration so the
+        // UMD wrappers in jquery.validate(.unobtrusive).min.js don't detect a
+        // CommonJS environment and try to require('jquery'). The ElectronNET
+        // C#<->JS bridge runs over socket.io in the main process and does not
+        // depend on renderer Node integration.
+        WebPreferences = new WebPreferences
+        {
+            NodeIntegration = false
+        }
     });
     browserWindow.SetTitle("Bender Builders");
     browserWindow.OnReadyToShow += () =>

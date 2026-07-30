@@ -1,17 +1,17 @@
-@model BenderBuilders.App.Models.HomeIndexViewModel
+@model IReadOnlyList<BenderBuilders.Interfaces.Dtos.ProposalDto>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Proposals";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Recent proposals</h1>
+    <h1 class="h3 mb-0">Proposals</h1>
     <div>
-        <a class="btn btn-outline-secondary" asp-controller="Proposals" asp-action="Index">View all proposals</a>
+        <button type="button" class="btn btn-outline-secondary" onclick="history.back()">Back</button>
         <a class="btn btn-primary" asp-controller="Proposals" asp-action="Create">Create a proposal</a>
     </div>
 </div>
 
-@if (!Model.RecentProposals.Any())
+@if (!Model.Any())
 {
     <div class="alert alert-info" role="alert">
         No proposals yet &mdash; <a asp-controller="Proposals" asp-action="Create">create your first one</a>.
@@ -26,17 +26,19 @@ else
                     <th scope="col">Customer</th>
                     <th scope="col">Date</th>
                     <th scope="col">Summary</th>
+                    <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var proposal in Model.RecentProposals)
+                @foreach (var proposal in Model)
                 {
                     <tr>
-                        <td>
-                            <a asp-controller="Proposals" asp-action="Edit" asp-route-id="@proposal.Id">@proposal.CustomerName</a>
-                        </td>
+                        <td>@proposal.CustomerName</td>
                         <td>@proposal.ProposalDate.ToString("d")</td>
                         <td>@proposal.ProposalSummary</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="Proposals" asp-action="Edit" asp-route-id="@proposal.Id">Edit</a>
+                        </td>
                     </tr>
                 }
             </tbody>
