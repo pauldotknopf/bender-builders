@@ -36,10 +36,15 @@ app.Run();
 
 static async Task ElectronAppReady()
 {
-    var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions { Show = false });
-
+    var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+    {
+        Show = false,
+        Title = "Bender Builders"
+    });
+    browserWindow.SetTitle("Bender Builders");
     browserWindow.OnReadyToShow += () =>
     {
+        browserWindow.WebContents.OpenDevTools();
         browserWindow.Show();
     };
 }
