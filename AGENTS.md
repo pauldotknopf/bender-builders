@@ -55,6 +55,11 @@ This repo is a completely client-side application that allows users to manage pr
 
 # User interface
 
+## Shared
+
+* Ability for pages to display success/error information via temporary view state.
+* Back button rendered for users to click (since this is hosted in an electron container).
+
 ## Home 
 
 * Display all the proposals in a grid.
