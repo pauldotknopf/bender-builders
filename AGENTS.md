@@ -46,9 +46,34 @@ This repo is a completely client-side application that allows users to manage pr
 * When writing each new feature, ensure that the appropriate tests are created as well.
 * After each new feature, ensure the build/tests work. If not, iterate until tests pass.
 * ```BenderBuilder.Services.Models``` contains the ORM-mapped models used for persistence.
-* ```BenderBuilder.Interfaces.Dtos``` contains the POCO objects that largely map to the ORM-mapped models. The ```BenderBuilders.App``` should only reference the DTOs.
+* ```BenderBuilder.Interfaces.Dtos``` contains the POCO objects that largely map to the ORM-mapped models. The ```BenderBuilders.App``` should only reference the DTOs/interfaces. This ensures that swapping the persistence layer later is straight-forward.
 * ```The interfaces defined in BenderBuilder.Interfaces``` may, in the future, be abstracted behind an external API. Keep this in mind when making changes.
   * All methods should be free of side effects (pure functions)
   * Transitive properties referencing relationships should be strictly ID-based.
   * The ```BenderBuilder.Interfaces``` dependencies should be kept to a minimum.
 * The service layer should call migrations on-demand (```IMigrator.Migrate```), at the start of each service layer method.
+
+# User interface
+
+## Home 
+
+* Display all the proposals in a grid.
+* Paged (url-based).
+* Filtering (searches relevant fields on the proposal)
+* Allows deleting proposals.
+* Link to create a new proposal.
+
+## Proposal create/update
+
+* Create a new proposal.
+* Edits an existing proposal.
+  * Displays a grid (non-paged) of all the invoices.
+  * Allows deleting of invoices.
+  * Link to creating/updating invoices.
+* Link to print-friendly summary of proposal.
+
+## Invoice create/update
+
+* Creates/updates a new invoice.
+* Client-side management of invoice line-items that are saved on postback.
+* Link to print-friendly summary of invoice.
