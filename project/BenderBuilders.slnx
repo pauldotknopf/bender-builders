@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/other/">
+    <File Path="..\AGENTS.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/BenderBuilders.App/BenderBuilders.App.csproj" />
     <Project Path="src/BenderBuilders.Interfaces/BenderBuilders.Interfaces.csproj" />

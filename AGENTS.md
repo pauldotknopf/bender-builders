@@ -34,3 +34,19 @@ This repo is a completely client-side application that allows users to manage pr
 # Technology
 
 * The entire project is located under ```./project```.
+* BenderBuilders.App is a default ASP.NET MVC template project with minimal changes.
+* jQuery v3.7.1 is being used.
+* Bootstrap v5.3.3 (css and js) is being used.
+* ServiceStack.OrmLite v10 is used for SQLite access. SharpDataAccess is used to manage the raw IDbConnections.
+
+# Considerations
+
+* Traditional post-backs (with MVC model binding) should be preferred (as opposed to $.ajax or similar).
+* The service layer should have a good coverage of integration tests.
+* When writing each new feature, ensure that the appropriate tests are created as well.
+* After each new feature, ensure the build/tests work. If not, iterate until tests pass.
+* ```BenderBuilder.Services.Models``` contains the ORM-mapped models used for persistence.
+* ```BenderBuilder.Interfaces.Dtos``` contains the POCO objects that largely map to the ORM-mapped models. The ```BenderBuilders.App``` should only reference the DTOs.
+* ```The interfaces defined in BenderBuilder.Interfaces``` may, in the future, be abstracted behind an external API. Keep this in mind when making changes.
+  * All methods should be free of side effects (pure functions)
+  * The ```BenderBuilder.Interfaces``` dependencies should be kept to a minimum.
