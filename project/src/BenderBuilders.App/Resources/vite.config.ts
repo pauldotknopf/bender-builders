@@ -8,4 +8,16 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  build: {
+    // Output into the ASP.NET app's wwwroot so the MVC app can serve the assets.
+    outDir: '../wwwroot',
+    rollupOptions: {
+      output: {
+        // Predictable, non-hashed filenames so MVC views can reference stable paths.
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name][extname]',
+      },
+    },
+  },
 })
