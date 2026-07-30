@@ -1,5 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/BenderBuilders.App/BenderBuilders.App.csproj" />
+    <Project Path="src/BenderBuilders.Interfaces/BenderBuilders.Interfaces.csproj" />
+    <Project Path="src/BenderBuilders.Services/BenderBuilders.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BenderBuilders.Services.Tests/BenderBuilders.Services.Tests.csproj" />
   </Folder>
 </Solution>
