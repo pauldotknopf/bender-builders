@@ -12,4 +12,8 @@
     <PackageReference Include="ElectronNET.Core.AspNet" Version="0.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BenderBuilders.Services\BenderBuilders.Services.csproj" />
+  </ItemGroup>
+
 </Project>

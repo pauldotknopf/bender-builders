@@ -49,4 +49,6 @@ This repo is a completely client-side application that allows users to manage pr
 * ```BenderBuilder.Interfaces.Dtos``` contains the POCO objects that largely map to the ORM-mapped models. The ```BenderBuilders.App``` should only reference the DTOs.
 * ```The interfaces defined in BenderBuilder.Interfaces``` may, in the future, be abstracted behind an external API. Keep this in mind when making changes.
   * All methods should be free of side effects (pure functions)
+  * Transitive properties referencing relationships should be strictly ID-based.
   * The ```BenderBuilder.Interfaces``` dependencies should be kept to a minimum.
+* The service layer should call migrations on-demand (```IMigrator.Migrate```), at the start of each service layer method.

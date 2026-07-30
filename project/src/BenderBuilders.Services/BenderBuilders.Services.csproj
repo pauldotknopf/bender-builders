@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ServiceStack.OrmLite.Sqlite.Data" Version="10.0.8" />
     <PackageReference Include="SharpDataAccess" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BenderBuilders.Interfaces\BenderBuilders.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
