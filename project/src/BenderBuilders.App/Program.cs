@@ -1,15 +1,21 @@
+using BenderBuilders.Services;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using SharpDataAccess.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddBenderBuildersServices();
 
 // Add this line to enable Electron.NET:
 builder.UseElectron(args, ElectronAppReady);
 
 var app = builder.Build();
+
+// Ensure the SQLite database schema is up to date on startup.
+app.Services.GetRequiredService<IMigrator>().Migrate();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

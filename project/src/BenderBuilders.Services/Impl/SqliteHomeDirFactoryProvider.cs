@@ -13,7 +13,7 @@ public class SqliteHomeDirFactoryProvider : IDbConnectionFactoryProvider
     {
         var sqliteDialect = SqliteDialect.Create();
         SqliteConfiguration.Configure(sqliteDialect);
-        var homeDir = SpecialDirectories.CurrentUserApplicationData;
+        var homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         return new OrmLiteConnectionFactory($"Data Source={Path.Combine(homeDir, "Application.Db")};Cache=Shared", sqliteDialect);
     }
 }

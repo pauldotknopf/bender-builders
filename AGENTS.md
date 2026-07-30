@@ -52,6 +52,9 @@ This repo is a completely client-side application that allows users to manage pr
   * Transitive properties referencing relationships should be strictly ID-based.
   * The ```BenderBuilder.Interfaces``` dependencies should be kept to a minimum.
 * The service layer should call migrations on-demand (```IMigrator.Migrate```), at the start of each service layer method.
+* All methods in the service layer should be created with the accompanying integration tests.
+* All schema changes must be done via migrations.
+  * Migrations should never reference classes outside of it's control. Copy all ORM models into the migration with a prefixed ```_``` to prevent mixups.
 
 # User interface
 
@@ -59,8 +62,16 @@ This repo is a completely client-side application that allows users to manage pr
 
 * Ability for pages to display success/error information via temporary view state.
 * Back button rendered for users to click (since this is hosted in an electron container).
+* Links to home page.
+* Links to proposals.
 
-## Home 
+## Home page
+
+* Show a summary of recent proposals.
+* Links to view all proposals.
+* Links to create a proposal.
+
+## Proposals 
 
 * Display all the proposals in a grid.
 * Paged (url-based).
