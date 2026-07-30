@@ -1,14 +1,29 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BenderBuilders.App.Models;
+using BenderBuilders.Interfaces;
 
 namespace BenderBuilders.App.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private const int RecentProposalCount = 5;
+
+    private readonly IProposalService _proposalService;
+
+    public HomeController(IProposalService proposalService)
     {
-        return View();
+        _proposalService = proposalService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var model = new HomeIndexViewModel
+        {
+            RecentProposals = await _proposalService.GetRecentProposalsAsync(RecentProposalCount)
+        };
+
+        return View(model);
     }
 
     public IActionResult Privacy()

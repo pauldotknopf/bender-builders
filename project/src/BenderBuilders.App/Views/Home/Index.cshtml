@@ -1,8 +1,43 @@
-﻿@{
+@model BenderBuilders.App.Models.HomeIndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Recent proposals</h1>
+    <div>
+        <a class="btn btn-outline-secondary" asp-controller="Proposals" asp-action="Index">View all proposals</a>
+        <a class="btn btn-primary" asp-controller="Proposals" asp-action="Create">Create a proposal</a>
+    </div>
 </div>
+
+@if (!Model.RecentProposals.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No proposals yet &mdash; <a asp-controller="Proposals" asp-action="Create">create your first one</a>.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proposal in Model.RecentProposals)
+                {
+                    <tr>
+                        <td>@proposal.CustomerName</td>
+                        <td>@proposal.ProposalDate.ToString("d")</td>
+                        <td>@proposal.ProposalSummary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

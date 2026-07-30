@@ -55,6 +55,7 @@ This repo is a completely client-side application that allows users to manage pr
 * All methods in the service layer should be created with the accompanying integration tests.
 * All schema changes must be done via migrations.
   * Migrations should never reference classes outside of it's control. Copy all ORM models into the migration with a prefixed ```_``` to prevent mixups.
+* Every service layer method should be ```async/await```. If the service layer is being consumed by a method that isn't async, then update it.
 
 # User interface
 
