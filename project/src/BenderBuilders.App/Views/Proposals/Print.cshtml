@@ -1,0 +1,66 @@
+@model BenderBuilders.Interfaces.Dtos.ProposalDto
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proposal - @Model.CustomerName</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        @@media print {
+            .no-print { display: none !important; }
+            @@page { margin: 1.5cm; }
+        }
+
+        body { padding: 1.5rem; }
+
+        dt { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="no-print d-flex justify-content-end gap-2 mb-4">
+        <button type="button" class="btn btn-outline-secondary" onclick="history.back()">Back</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">Save as PDF</button>
+    </div>
+
+    <h1 class="h3 mb-1">Proposal</h1>
+    <p class="text-muted">@Model.ProposalDate.ToString("D")</p>
+
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">Customer Name</dt>
+        <dd class="col-sm-9">@Model.CustomerName</dd>
+
+        <dt class="col-sm-3">Proposal Date</dt>
+        <dd class="col-sm-9">@Model.ProposalDate.ToString("d")</dd>
+
+        <dt class="col-sm-3">Address 1</dt>
+        <dd class="col-sm-9">@Model.Address1</dd>
+
+        <dt class="col-sm-3">Address 2</dt>
+        <dd class="col-sm-9">@Model.Address2</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@Model.City</dd>
+
+        <dt class="col-sm-3">State</dt>
+        <dd class="col-sm-9">@Model.State</dd>
+
+        <dt class="col-sm-3">Phone Number</dt>
+        <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+        <dt class="col-sm-3">Job Location</dt>
+        <dd class="col-sm-9">@Model.JobLocation</dd>
+
+        <dt class="col-sm-3">Fed ID Number</dt>
+        <dd class="col-sm-9">@Model.FedIdNumber</dd>
+
+        <dt class="col-sm-3">Proposal Summary</dt>
+        <dd class="col-sm-9" style="white-space: pre-wrap;">@Model.ProposalSummary</dd>
+    </dl>
+</body>
+</html>

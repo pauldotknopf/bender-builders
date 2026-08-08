@@ -45,9 +45,8 @@ static async Task ElectronAppReady()
     {
         Show = false,
         Title = "Bender Builders",
-        // The renderer only hosts a plain web UI. Disable Node integration so the
-        // UMD wrappers in jquery.validate(.unobtrusive).min.js don't detect a
-        // CommonJS environment and try to require('jquery'). The ElectronNET
+        // Enable Node integration so the renderer can use Electron's native
+        // APIs (e.g., webContents.printToPDF for saving PDFs). The ElectronNET
         // C#<->JS bridge runs over socket.io in the main process and does not
         // depend on renderer Node integration.
         WebPreferences = new WebPreferences

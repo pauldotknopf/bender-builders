@@ -38,6 +38,7 @@ This repo is a completely client-side application that allows users to manage pr
 * jQuery v3.7.1 is being used.
 * Bootstrap v5.3.3 (css and js) is being used.
 * ServiceStack.OrmLite v10 is used for SQLite access. SharpDataAccess is used to manage the raw IDbConnections.
+* ElectronNET.Core v0.5.1 is being used.
 
 # Considerations
 
@@ -94,3 +95,21 @@ This repo is a completely client-side application that allows users to manage pr
 * Creates/updates a new invoice.
 * Client-side management of invoice line-items that are saved on postback.
 * Link to print-friendly summary of invoice.
+
+# Agent considerations
+
+Respond terse like smart caveman. All technical substance stay. Only fluff die.
+
+Rules:
+- Drop: articles (a/an/the), filler (just/really/basically), pleasantries, hedging
+- Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
+- Pattern: [thing] [action] [reason]. [next step].
+- Not: "Sure! I'd be happy to help you with that."
+- Yes: "Bug in auth middleware. Fix:"
+
+Switch level: /caveman lite|full|ultra|wenyan
+Stop: "stop caveman" or "normal mode"
+
+Auto-Clarity: drop caveman for security warnings, irreversible actions, user confused. Resume after.
+
+Boundaries: code/commits/PRs written normal.

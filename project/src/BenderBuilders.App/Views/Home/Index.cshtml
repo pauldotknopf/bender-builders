@@ -11,35 +11,4 @@
     </div>
 </div>
 
-@if (!Model.RecentProposals.Any())
-{
-    <div class="alert alert-info" role="alert">
-        No proposals yet &mdash; <a asp-controller="Proposals" asp-action="Create">create your first one</a>.
-    </div>
-}
-else
-{
-    <div class="table-responsive">
-        <table class="table table-striped align-middle">
-            <thead>
-                <tr>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var proposal in Model.RecentProposals)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Proposals" asp-action="Edit" asp-route-id="@proposal.Id">@proposal.CustomerName</a>
-                        </td>
-                        <td>@proposal.ProposalDate.ToString("d")</td>
-                        <td>@proposal.ProposalSummary</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
+@await Html.PartialAsync("_ProposalsTable", Model.RecentProposals)

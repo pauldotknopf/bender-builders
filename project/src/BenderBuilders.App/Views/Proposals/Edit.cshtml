@@ -18,7 +18,7 @@
 </div>
 
 <div class="mt-3">
-    <button type="button" class="btn btn-outline-secondary" disabled>Print-friendly summary (coming soon)</button>
+    <a class="btn btn-outline-primary" asp-controller="Proposals" asp-action="GeneratePdf" asp-route-id="@Model.Id">Save as PDF</a>
 </div>
 
 @section Scripts {

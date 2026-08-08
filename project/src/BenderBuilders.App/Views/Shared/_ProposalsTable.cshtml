@@ -1,0 +1,37 @@
+@model IReadOnlyList<BenderBuilders.Interfaces.Dtos.ProposalDto>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No proposals yet &mdash; <a asp-controller="Proposals" asp-action="Create">create your first one</a>.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Summary</th>
+                    <th scope="col" class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proposal in Model)
+                {
+                    <tr>
+                        <td>@proposal.CustomerName</td>
+                        <td>@proposal.ProposalDate.ToString("d")</td>
+                        <td>@proposal.ProposalSummary</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Proposals" asp-action="GeneratePdf" asp-route-id="@proposal.Id">Save as PDF</a>
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="Proposals" asp-action="Edit" asp-route-id="@proposal.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
