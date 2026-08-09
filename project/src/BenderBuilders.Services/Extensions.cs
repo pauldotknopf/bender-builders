@@ -20,7 +20,9 @@ public static class Extensions
         services.AddSingleton<SharpDataAccess.Data.IDbConnectionFactoryProvider, SqliteHomeDirFactoryProvider>();
         
         services.AddSingleton<IProposalService, ProposalService>();
-        
+        services.AddSingleton<IInvoiceService, InvoiceService>();
+        services.AddSingleton<IInvoiceLineItemService, InvoiceLineItemService>();
+
         return services;
     }
 }
