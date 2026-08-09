@@ -34,11 +34,11 @@ This repo is a completely client-side application that allows users to manage pr
 # Technology
 
 * The entire project is located under ```./project```.
-* BenderBuilders.App is a default ASP.NET MVC template project with minimal changes.
+* BenderBuilders.App is a ASP.NET MVC project, using Razor ```cshtml``` files.
+* ElectronNET.Core v0.5.1 is being used to wrap the project up in an electron environment.
 * jQuery v3.7.1 is being used.
 * Bootstrap v5.3.3 (css and js) is being used.
 * ServiceStack.OrmLite v10 is used for SQLite access. SharpDataAccess is used to manage the raw IDbConnections.
-* ElectronNET.Core v0.5.1 is being used.
 
 # Considerations
 
