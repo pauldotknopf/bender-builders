@@ -1,0 +1,74 @@
+@model BenderBuilders.App.Models.InvoiceFormViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice - @(Model.Proposal?.CustomerName ?? "Invoice")</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        @@media print {
+            .no-print { display: none !important; }
+            @@page { margin: 1.5cm; }
+        }
+
+        body { padding: 1.5rem; }
+
+        .total-row { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="no-print d-flex justify-content-end gap-2 mb-4">
+        <button type="button" class="btn btn-outline-secondary" onclick="history.back()">Back</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">Save as PDF</button>
+    </div>
+
+    <h1 class="h3 mb-1">Invoice</h1>
+    <p class="text-muted">@Model.Invoice.InvoiceDate.ToString("D")</p>
+
+    @if (Model.Proposal is not null)
+    {
+        <p class="mb-1">@Model.Proposal.CustomerName</p>
+        <p class="mb-1">@Model.Proposal.Address1</p>
+        <p class="mb-1">@Model.Proposal.Address2</p>
+        <p class="mb-1">@Model.Proposal.City@(Model.Proposal.State is null ? string.Empty : $", {Model.Proposal.State}")</p>
+        <p class="mb-0">@Model.Proposal.PhoneNumber</p>
+    }
+
+    <hr />
+
+    @if (!Model.LineItems.Any())
+    {
+        <p class="text-muted">No line items.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col" class="text-end col-md-4">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lineItem in Model.LineItems)
+                {
+                    <tr>
+                        <td>@lineItem.Description</td>
+                        <td class="text-end">@lineItem.Amount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td>Total</td>
+                    <td class="text-end">@Model.LineItems.Sum(x => x.Amount).ToString("C")</td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+</body>
+</html>

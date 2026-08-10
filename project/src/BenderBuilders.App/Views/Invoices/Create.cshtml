@@ -1,0 +1,12 @@
+@model BenderBuilders.App.Models.InvoiceFormViewModel
+@{
+    ViewData["Title"] = "Add invoice";
+}
+
+<h1 class="h3 mb-3">Add invoice @(Model.Proposal is not null ? $"for {Model.Proposal.CustomerName}" : string.Empty)</h1>
+
+<partial name="_InvoiceForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

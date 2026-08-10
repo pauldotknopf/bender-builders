@@ -1,4 +1,5 @@
 using System.IO;
+using BenderBuilders.App.Models;
 using BenderBuilders.Interfaces;
 using BenderBuilders.Interfaces.Dtos;
 using ElectronNET.API;
@@ -10,10 +11,14 @@ namespace BenderBuilders.App.Controllers;
 public class ProposalsController : Controller
 {
     private readonly IProposalService _proposalService;
+    private readonly IInvoiceService _invoiceService;
+    private readonly IInvoiceLineItemService _lineItemService;
 
-    public ProposalsController(IProposalService proposalService)
+    public ProposalsController(IProposalService proposalService, IInvoiceService invoiceService, IInvoiceLineItemService lineItemService)
     {
         _proposalService = proposalService;
+        _invoiceService = invoiceService;
+        _lineItemService = lineItemService;
     }
 
     public async Task<IActionResult> Index()
@@ -51,7 +56,23 @@ public class ProposalsController : Controller
             return NotFound();
         }
 
-        return View(proposal);
+        var invoices = await _invoiceService.GetInvoicesForProposalAsync(id);
+        var summaries = new List<InvoiceSummary>();
+        foreach (var invoice in invoices)
+        {
+            var lineItems = await _lineItemService.GetLineItemsForInvoiceAsync(invoice.Id);
+            summaries.Add(new InvoiceSummary
+            {
+                Invoice = invoice,
+                Total = lineItems.Sum(x => x.Amount)
+            });
+        }
+
+        return View(new ProposalEditViewModel
+        {
+            Proposal = proposal,
+            Invoices = summaries
+        });
     }
 
     [HttpGet]

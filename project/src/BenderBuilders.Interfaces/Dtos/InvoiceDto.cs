@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BenderBuilders.Interfaces.Dtos;
 
 /// <summary>
@@ -12,5 +14,7 @@ public class InvoiceDto
 
     public int ProposalId { get; set; }
 
+    [DataType(DataType.Date)]
+    [Display(Name = "Invoice Date")]
     public DateTime InvoiceDate { get; set; }
 }

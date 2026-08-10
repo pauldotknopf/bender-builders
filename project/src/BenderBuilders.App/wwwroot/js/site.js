@@ -1,0 +1,50 @@
+$(function () {
+    var $body = $("#lineItemsBody");
+
+    if (!$body.length) {
+        return;
+    }
+
+    // Next free index for client-added line item rows. Server-rendered rows use
+    // names like LineItems[0].Description, so start past the highest index present.
+    var nextIndex = (function () {
+        var max = -1;
+        $body.find("input[type='hidden']").each(function () {
+            var match = /LineItems\[(\d+)\]\.Id/.exec(this.name);
+            if (match) {
+                var index = parseInt(match[1], 10);
+                if (index > max) {
+                    max = index;
+                }
+            }
+        });
+        return max + 1;
+    })();
+
+    if ($body.find("tr").length === 0) {
+        addLineItemRow();
+    }
+
+    $("#addLineItem").on("click", addLineItemRow);
+
+    $body.on("click", "[data-line-item-remove]", function () {
+        $(this).closest("tr").remove();
+    });
+
+    function addLineItemRow() {
+        var index = nextIndex++;
+
+        var $row = $("<tr>");
+        $row.append($("<td>").append(
+            $("<input>", { type: "hidden", name: "LineItems[" + index + "].Id", value: "0" }),
+            $("<input>", { type: "text", name: "LineItems[" + index + "].Description", class: "form-control", placeholder: "Description" })
+        ));
+        $row.append($("<td>").append(
+            $("<input>", { type: "number", step: "0.01", name: "LineItems[" + index + "].Amount", class: "form-control text-end", placeholder: "0.00" })
+        ));
+        $row.append($("<td>").addClass("text-end").append(
+            $("<button>", { type: "button", class: "btn btn-sm btn-outline-danger", "data-line-item-remove": "" }).text("Remove")
+        ));
+        $body.append($row);
+    }
+});
