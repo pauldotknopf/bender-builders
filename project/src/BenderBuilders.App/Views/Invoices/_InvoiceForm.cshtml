@@ -47,6 +47,13 @@
                             </tr>
                         }
                     </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <th scope="row">Total</th>
+                            <td class="text-end" id="lineItemsTotal">@Model.LineItems.Sum(x => x.Amount).ToString("C")</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

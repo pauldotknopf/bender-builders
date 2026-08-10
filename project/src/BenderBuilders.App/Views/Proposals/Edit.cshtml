@@ -35,7 +35,6 @@
                                 <td>@summary.Invoice.InvoiceDate.ToString("d")</td>
                                 <td class="text-end">@summary.Total.ToString("C")</td>
                                 <td class="text-end">
-                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Invoices" asp-action="Print" asp-route-id="@summary.Invoice.Id">Print</a>
                                     <a class="btn btn-sm btn-outline-secondary" asp-controller="Invoices" asp-action="GeneratePdf" asp-route-id="@summary.Invoice.Id">Save as PDF</a>
                                     <a class="btn btn-sm btn-outline-primary" asp-controller="Invoices" asp-action="Edit" asp-route-id="@summary.Invoice.Id">Edit</a>
                                     <form class="d-inline" asp-controller="Invoices" asp-action="Delete" asp-route-id="@summary.Invoice.Id" method="post" onsubmit="return confirm('Delete this invoice?');">
