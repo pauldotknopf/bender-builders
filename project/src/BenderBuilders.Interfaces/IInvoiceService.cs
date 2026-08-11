@@ -12,7 +12,7 @@ public interface IInvoiceService
     /// <summary>
     /// Returns the invoice with the given id, or <c>null</c> if none exists.
     /// </summary>
-    Task<InvoiceDto?> GetInvoiceAsync(int id);
+    Task<InvoiceDto> GetInvoiceAsync(int id);
 
     /// <summary>
     /// Creates or updates an invoice. When <see cref="InvoiceDto.Id"/> is 0 a new invoice is

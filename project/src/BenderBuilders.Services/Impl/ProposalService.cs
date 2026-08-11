@@ -49,7 +49,7 @@ public class ProposalService : IProposalService
         return proposals.Select(MapToDto).ToList();
     }
 
-    public async Task<ProposalDto?> GetProposalAsync(int id)
+    public async Task<ProposalDto> GetProposalAsync(int id)
     {
         _migrator.Migrate();
 

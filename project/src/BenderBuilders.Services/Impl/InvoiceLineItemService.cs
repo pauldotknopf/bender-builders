@@ -29,7 +29,7 @@ public class InvoiceLineItemService : IInvoiceLineItemService
         return lineItems.Select(MapToDto).ToList();
     }
 
-    public async Task<InvoiceLineItemDto?> GetLineItemAsync(int id)
+    public async Task<InvoiceLineItemDto> GetLineItemAsync(int id)
     {
         _migrator.Migrate();
 

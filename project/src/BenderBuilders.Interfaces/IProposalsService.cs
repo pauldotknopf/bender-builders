@@ -18,7 +18,7 @@ public interface IProposalService
     /// <summary>
     /// Returns the proposal with the given id, or <c>null</c> if none exists.
     /// </summary>
-    Task<ProposalDto?> GetProposalAsync(int id);
+    Task<ProposalDto> GetProposalAsync(int id);
 
     /// <summary>
     /// Creates or updates a proposal. When <see cref="ProposalDto.Id"/> is 0 a new

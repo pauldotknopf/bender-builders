@@ -34,7 +34,7 @@ public class InvoiceService : IInvoiceService
         return invoices.Select(MapToDto).ToList();
     }
 
-    public async Task<InvoiceDto?> GetInvoiceAsync(int id)
+    public async Task<InvoiceDto> GetInvoiceAsync(int id)
     {
         _migrator.Migrate();
 

@@ -13,5 +13,5 @@ public class InvoiceFormViewModel
 
     public List<InvoiceLineItemDto> LineItems { get; set; } = new();
 
-    public ProposalDto? Proposal { get; set; }
+    public ProposalDto Proposal { get; set; }
 }

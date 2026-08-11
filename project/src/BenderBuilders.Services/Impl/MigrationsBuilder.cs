@@ -12,7 +12,7 @@ public class MigrationsBuilder : IMigrationsBuilder
         {
             if (typeof(IMigration).IsAssignableFrom(type))
             {
-                migrations.Add(Activator.CreateInstance(type) as IMigration);
+                migrations.Add((IMigration)Activator.CreateInstance(type));
             }
         }
         action(migrations);

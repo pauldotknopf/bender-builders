@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddBenderBuildersServices();
 
 // Add this line to enable Electron.NET:
-builder.UseElectron(args, ElectronAppReady);
+builder.UseElectron(args, () => ElectronAppReady(builder.Environment));
 
 var app = builder.Build();
 
@@ -39,7 +39,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-static async Task ElectronAppReady()
+static async Task ElectronAppReady(IWebHostEnvironment environment)
 {
     var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
     {
@@ -57,7 +57,10 @@ static async Task ElectronAppReady()
     browserWindow.SetTitle("Bender Builders");
     browserWindow.OnReadyToShow += () =>
     {
-        browserWindow.WebContents.OpenDevTools();
+        if (environment.IsDevelopment())
+        {
+            browserWindow.WebContents.OpenDevTools();
+        }
         browserWindow.Show();
     };
 }

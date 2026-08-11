@@ -12,7 +12,7 @@ public interface IInvoiceLineItemService
     /// <summary>
     /// Returns the line item with the given id, or <c>null</c> if none exists.
     /// </summary>
-    Task<InvoiceLineItemDto?> GetLineItemAsync(int id);
+    Task<InvoiceLineItemDto> GetLineItemAsync(int id);
 
     /// <summary>
     /// Creates or updates a single line item. When <see cref="InvoiceLineItemDto.Id"/> is 0 a new
