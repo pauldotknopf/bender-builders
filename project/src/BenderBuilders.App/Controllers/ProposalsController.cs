@@ -10,6 +10,8 @@ namespace BenderBuilders.App.Controllers;
 
 public class ProposalsController : Controller
 {
+    private const int PageSize = 10;
+
     private readonly IProposalService _proposalService;
     private readonly IInvoiceService _invoiceService;
     private readonly IInvoiceLineItemService _lineItemService;
@@ -21,10 +23,17 @@ public class ProposalsController : Controller
         _lineItemService = lineItemService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1, string search = null)
     {
-        var proposals = await _proposalService.GetAllProposalsAsync();
-        return View(proposals);
+        if (page < 1)
+        {
+            page = 1;
+        }
+
+        search = string.IsNullOrWhiteSpace(search) ? null : search.Trim();
+
+        var proposals = await _proposalService.GetProposalsAsync(page, PageSize, search);
+        return View(new ProposalsIndexViewModel { Proposals = proposals, Search = search });
     }
 
     [HttpGet]

@@ -1,6 +1,11 @@
-@model IReadOnlyList<BenderBuilders.Interfaces.Dtos.ProposalDto>
+@model BenderBuilders.App.Models.ProposalsIndexViewModel
 @{
     ViewData["Title"] = "Proposals";
+
+    var page = Model.Proposals.Page;
+    var totalPages = Model.Proposals.TotalPages;
+    var totalCount = Model.Proposals.TotalCount;
+    var hasSearch = !string.IsNullOrEmpty(Model.Search);
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -11,4 +16,49 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_ProposalsTable", Model)
+<form method="get" asp-controller="Proposals" asp-action="Index" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="search" name="search" value="@Model.Search" class="form-control" placeholder="Search customer, summary, city..." aria-label="Search proposals" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    @if (hasSearch)
+    {
+        <div class="col-auto">
+            <a class="btn btn-outline-secondary" asp-controller="Proposals" asp-action="Index">Clear</a>
+        </div>
+    }
+</form>
+
+@if (hasSearch && !Model.Proposals.Items.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No proposals match &ldquo;@Model.Search&rdquo; &mdash; <a asp-controller="Proposals" asp-action="Index">clear your search</a>.
+    </div>
+}
+else
+{
+    @await Html.PartialAsync("_ProposalsTable", Model.Proposals.Items)
+}
+
+@if (totalPages > 1)
+{
+    <nav aria-label="Proposals pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(page <= 1 ? "disabled" : null)">
+                <a class="page-link" asp-controller="Proposals" asp-action="Index" asp-route-page="@(page - 1)" asp-route-search="@Model.Search">Previous</a>
+            </li>
+            @for (var i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == page ? "active" : null)">
+                    <a class="page-link" asp-controller="Proposals" asp-action="Index" asp-route-page="@i" asp-route-search="@Model.Search">@i</a>
+                </li>
+            }
+            <li class="page-item @(page >= totalPages ? "disabled" : null)">
+                <a class="page-link" asp-controller="Proposals" asp-action="Index" asp-route-page="@(page + 1)" asp-route-search="@Model.Search">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <p class="text-center text-muted small mb-0">Showing @totalCount proposals across @totalPages pages.</p>
+}

@@ -49,6 +49,54 @@ public class ProposalService : IProposalService
         return proposals.Select(MapToDto).ToList();
     }
 
+    public async Task<PagedResultDto<ProposalDto>> GetProposalsAsync(int page, int pageSize, string search)
+    {
+        _migrator.Migrate();
+
+        if (page < 1)
+        {
+            page = 1;
+        }
+
+        if (pageSize < 1)
+        {
+            pageSize = 1;
+        }
+
+        using var conScope = new ConScope(await ConScope.GetAsyncContext(_dataService));
+
+        var query = conScope.Connection.From<Proposal>()
+            .OrderByDescending(p => p.ProposalDate)
+            .ThenByDescending(p => p.Id);
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim();
+            query = query.Where(p =>
+                p.CustomerName.Contains(term) ||
+                p.ProposalSummary.Contains(term) ||
+                p.City.Contains(term) ||
+                p.State.Contains(term) ||
+                p.JobLocation.Contains(term));
+        }
+
+        var totalCount = (int)await conScope.Connection.CountAsync(query);
+        var totalPages = (int)((totalCount + pageSize - 1) / (long)pageSize);
+
+        var pagedQuery = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+        var proposals = await conScope.Connection.SelectAsync(pagedQuery);
+
+        return new PagedResultDto<ProposalDto>
+        {
+            Items = proposals.Select(MapToDto).ToList(),
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            TotalPages = totalPages
+        };
+    }
+
     public async Task<ProposalDto> GetProposalAsync(int id)
     {
         _migrator.Migrate();

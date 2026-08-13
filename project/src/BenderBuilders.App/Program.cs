@@ -33,6 +33,11 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
+    name: "proposalsPaged",
+    pattern: "Proposals/Index/{page:int}",
+    defaults: new { controller = "Proposals", action = "Index" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
