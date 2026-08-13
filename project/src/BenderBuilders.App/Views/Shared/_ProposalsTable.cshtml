@@ -28,6 +28,9 @@ else
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-secondary" asp-controller="Proposals" asp-action="GeneratePdf" asp-route-id="@proposal.Id">Save as PDF</a>
                             <a class="btn btn-sm btn-outline-primary" asp-controller="Proposals" asp-action="Edit" asp-route-id="@proposal.Id">Edit</a>
+                            <form class="d-inline" asp-controller="Proposals" asp-action="Delete" asp-route-id="@proposal.Id" method="post" onsubmit="return confirm('Delete this proposal? This will also delete all of its invoices.');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 }

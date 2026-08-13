@@ -50,8 +50,14 @@
     </div>
 </div>
 
-<div class="mt-3">
+<div class="mt-3 d-flex gap-2">
     <a class="btn btn-outline-primary" asp-controller="Proposals" asp-action="GeneratePdf" asp-route-id="@Model.Proposal.Id">Save as PDF</a>
+    @if (Model.Proposal.Id > 0)
+    {
+        <form class="d-inline" asp-controller="Proposals" asp-action="Delete" asp-route-id="@Model.Proposal.Id" method="post" onsubmit="return confirm('Delete this proposal? This will also delete all of its invoices.');">
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+    }
 </div>
 
 @section Scripts {

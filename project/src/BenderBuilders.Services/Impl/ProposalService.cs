@@ -121,6 +121,33 @@ public class ProposalService : IProposalService
         return MapToDto(model);
     }
 
+    public async Task<bool> DeleteProposalAsync(int id)
+    {
+        _migrator.Migrate();
+
+        using var conScope = new ConScope(await ConScope.GetAsyncContext(_dataService));
+        using var transScope = await conScope.BeginTransaction();
+
+        var proposal = await conScope.Connection.SingleByIdAsync<Proposal>(id);
+        if (proposal is null)
+        {
+            return false;
+        }
+
+        var invoices = await conScope.Connection.SelectAsync<Invoice>(x => x.ProposalId == id);
+        foreach (var invoice in invoices)
+        {
+            await conScope.Connection.DeleteAsync<InvoiceLineItem>(x => x.InvoiceId == invoice.Id);
+            await conScope.Connection.DeleteByIdAsync<Invoice>(invoice.Id);
+        }
+
+        await conScope.Connection.DeleteByIdAsync<Proposal>(id);
+
+        transScope.Commit();
+
+        return true;
+    }
+
     private static ProposalDto MapToDto(Proposal p) => new()
     {
         Id = p.Id,

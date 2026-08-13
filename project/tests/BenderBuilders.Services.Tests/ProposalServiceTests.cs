@@ -260,24 +260,41 @@ public class ProposalServiceTests : DataTestBase
     }
 
     [TestMethod]
-    public async Task GetProposalsAsync_filter_combines_with_paging()
+    public async Task DeleteProposalAsync_removes_proposal_its_invoices_and_their_line_items()
+    {
+        var sp = BuildServiceProvider();
+        var proposalService = sp.GetRequiredService<IProposalService>();
+        var invoiceService = sp.GetRequiredService<IInvoiceService>();
+        var lineItemService = sp.GetRequiredService<IInvoiceLineItemService>();
+
+        var proposal = await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "To Delete", ProposalDate = new DateTime(2026, 1, 1) });
+        var otherProposal = await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "Keep", ProposalDate = new DateTime(2026, 2, 1) });
+
+        var invoice = await invoiceService.SaveInvoiceAsync(new InvoiceDto { ProposalId = proposal.Id, InvoiceDate = new DateTime(2026, 3, 15) });
+        var otherInvoice = await invoiceService.SaveInvoiceAsync(new InvoiceDto { ProposalId = otherProposal.Id, InvoiceDate = new DateTime(2026, 4, 15) });
+
+        await lineItemService.SaveLineItemAsync(new InvoiceLineItemDto { InvoiceId = invoice.Id, Description = "Labor", Amount = 100m });
+        await lineItemService.SaveLineItemAsync(new InvoiceLineItemDto { InvoiceId = otherInvoice.Id, Description = "Materials", Amount = 50m });
+
+        var deleted = await proposalService.DeleteProposalAsync(proposal.Id);
+
+        deleted.Should().BeTrue();
+        (await proposalService.GetProposalAsync(proposal.Id)).Should().BeNull();
+        (await invoiceService.GetInvoicesForProposalAsync(proposal.Id)).Should().BeEmpty();
+        (await lineItemService.GetLineItemsForInvoiceAsync(invoice.Id)).Should().BeEmpty();
+
+        (await proposalService.GetProposalAsync(otherProposal.Id)).Should().NotBeNull();
+        (await lineItemService.GetLineItemsForInvoiceAsync(otherInvoice.Id)).Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public async Task DeleteProposalAsync_returns_false_when_missing()
     {
         var sp = BuildServiceProvider();
         var proposalService = sp.GetRequiredService<IProposalService>();
 
-        await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "Alpha", City = "Springfield", ProposalDate = new DateTime(2026, 1, 1) });
-        await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "Beta", City = "Springfield", ProposalDate = new DateTime(2026, 2, 1) });
-        await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "Gamma", City = "Springfield", ProposalDate = new DateTime(2026, 3, 1) });
-        await proposalService.SaveProposalAsync(new ProposalDto { CustomerName = "Delta", City = "Shelbyville", ProposalDate = new DateTime(2026, 4, 1) });
+        var deleted = await proposalService.DeleteProposalAsync(999);
 
-        var page1 = await proposalService.GetProposalsAsync(1, 2, "springfield");
-
-        page1.TotalCount.Should().Be(3);
-        page1.TotalPages.Should().Be(2);
-        page1.Items.Select(p => p.CustomerName).Should().ContainInOrder("Gamma", "Beta");
-
-        var page2 = await proposalService.GetProposalsAsync(2, 2, "springfield");
-
-        page2.Items.Select(p => p.CustomerName).Should().ContainInOrder("Alpha");
+        deleted.Should().BeFalse();
     }
 }

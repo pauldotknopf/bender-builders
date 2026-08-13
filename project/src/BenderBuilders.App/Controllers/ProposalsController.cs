@@ -84,6 +84,22 @@ public class ProposalsController : Controller
         });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var proposal = await _proposalService.GetProposalAsync(id);
+        if (proposal is null)
+        {
+            return NotFound();
+        }
+
+        await _proposalService.DeleteProposalAsync(id);
+
+        TempData["Success"] = "Proposal deleted.";
+        return RedirectToAction(nameof(Index));
+    }
+
     [HttpGet]
     public async Task<IActionResult> Print(int id)
     {

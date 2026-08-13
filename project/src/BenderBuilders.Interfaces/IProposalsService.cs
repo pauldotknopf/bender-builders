@@ -38,4 +38,11 @@ public interface IProposalService
     /// saved proposal with its <see cref="ProposalDto.Id"/> populated.
     /// </summary>
     Task<ProposalDto> SaveProposalAsync(ProposalDto proposal);
+
+    /// <summary>
+    /// Deletes the proposal with the given id along with all of its invoices and their
+    /// line items. Returns <c>true</c> when a proposal was deleted, <c>false</c> when no
+    /// such proposal existed.
+    /// </summary>
+    Task<bool> DeleteProposalAsync(int id);
 }
